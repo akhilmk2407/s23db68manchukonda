@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p I like to play games and watch movies.
+
+  
+  button(type="button", class="btn btn-success" onclick ="doReduce()") Press Me
+  br
+  div#reduce Reduce the value
+
+  script.  
+    var count = 20
+    var change = -1
+    function doReduce() {
+      count += change;
+      change--;
+       document.getElementById("reduce").innerHTML = "Count " + count + " with change " + change;
+     }
+
+  a(href="handbags") Search Results

@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+
 require('dotenv').config();
 const connectionString =
 process.env.MONGO_CON
@@ -11,12 +13,24 @@ mongoose.connect(connectionString,
 {useNewUrlParser: true,
 useUnifiedTopology: true});
 
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
+
+
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var handbagsRouter = require('./routes/handbags');
 var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
+var handbags = require("./models/handbags");
+var resourceRouter = require("./routes/resource");
+
 
 var app = express();
 
@@ -35,6 +49,35 @@ app.use('/users', usersRouter);
 app.use('/handbags', handbagsRouter);
 app.use('/board', boardRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
+
+
+async function recreateDB() {
+  await handbags.deleteMany();
+  let instance1 = new handbags({ brand: "Gucci", model: "Marmont", color: "Black", price: 2500 });
+
+  instance1.save().then(() => {
+    console.log('Everything went well');
+  }).catch((e) => {
+    console.log('There was an error', e.message);
+  });
+  let instance2 = new handbags({ brand: "Chanel", model: "Boy", color: "Pink", price: 4500 });
+  instance2.save().then(() => {
+    console.log('Everything went well');
+  }).catch((e) => {
+    console.log('There was an error', e.message);
+  });
+  let instance3 = new handbags({ brand: "Prada", model: "Diagramme", color: "Red", price: 1800 });
+  instance3.save().then(() => {
+    console.log('Everything went well');
+  }).catch((e) => {
+    console.log('There was an error', e.message);
+  });
+}
+
+let reseed = true;
+if (reseed) { recreateDB();}
+
 
 
 // catch 404 and forward to error handler

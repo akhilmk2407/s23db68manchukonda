@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.handbagsAttr {
+  background-color: aquamarine;
+  width: 120px;
+ }

@@ -1,0 +1,24 @@
+extends layout
+block content
+ h1= title
+ - let handbagsid = toShow._id
+ - let brand = toShow.brand
+ - let model = toShow.model
+ - let color = toShow.color
+ - let price = toShow.price
+ div
+ div.row
+ div(class='handbagsAttr mr-3') handbags ID is: 
+ div #{handbagsid}
+ div.row
+ div(class='handbagsAttr mr-3') handbags brand is:
+ div #{brand}
+ div.row
+ div(class='handbagsAttr mr-3') handbags model is:
+ div #{model}
+ div.row
+ div(class='handbagsAttr mr-3') handbags color is:
+ div #{color}
+ div.row
+ div(class='handbagsAttr mr-3') handbags price is:
+ div #{price}

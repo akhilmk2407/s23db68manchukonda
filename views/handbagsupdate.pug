@@ -1,0 +1,49 @@
+extends layout 
+ 
+block content 
+  h1= title
+  if(toShow==null)
+    h2 No instance to Detail
+  else
+  - let handbagsid = toShow._id 
+  - let brand = toShow.brand
+  - let model = toShow.model 
+  - let price = toShow.price 
+  - let color = toShow.color 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{handbagsid} 
+  - let actionid = "/resource/handbags/" + handbagsid 
+  form(id='handbagsForm', action= actionid, method="PUT") 
+    div.form-group 
+        label.handbagsAttr(for='brand') handbags brand 
+        input#brand(type='text', name='brand', value= brand )
+    div.form-group 
+        label.handbagsAttr(for='model') handbags model
+        input#model(type='text', name='model', value= model ) 
+    div.form-group 
+        label.handbagsAttr(for='color') handbags color 
+        input#color(type='text', name='color', value= color ) 
+    div.form-group 
+        label.handbagsAttr(for='price') handbags price 
+        input#price(type='number', name='price', value= price ) 
+    input(type="submit") 
+ 
+  script. 
+    document.forms['handbagsForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 
